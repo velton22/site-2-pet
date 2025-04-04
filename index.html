@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Treino App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    touch-action: pan-y; /* Prevent horizontal scrolling/swiping */
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    overscroll-behavior: none; /* Prevent overscroll effects */
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f4cf8a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    touch-action: pan-y; /* Prevent horizontal scrolling/swiping */
+}
+
+/* Wrapper para limitar a largura no desktop */
+.site-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.hero {
+    width: 100%;
+    position: relative;
+    overflow: visible;
+}
+
+.hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Animação de luz pulsante no canto superior esquerdo - MELHORADA */
+.light-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transform: rotate(-45deg) translate(-30px, -30px);
+    animation: pulseLight 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes pulseLight {
+    0% { opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+
+.rotating-logo {
+    position: absolute;
+    right: 25%;
+    top: 40%;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.logo-circle {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    animation: rotate 20s linear infinite;
+}
+
+.logo-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.logo-text span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: 0 0;
+    font-size: 7.7px;
+    color: white;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.white-card-section {
+    position: relative;
+    margin-top: -22%;
+    padding: 0;
+    background-color: transparent;
+    z-index: 5;
+    perspective: 1000px; /* Adiciona perspectiva para o efeito 3D */
+}
+
+/* Flip Card Container */
+.flip-card {
+    width: 100%;
+    height: auto;
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped {
+    transform: rotateY(180deg);
+}
+
+/* Frente e verso do card */
+.card-front, .card-back {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card-front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    height: 100%;
+}
+
+.white-card {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    position: relative;
+}
+
+.white-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(42%) sepia(74%) saturate(1095%) hue-rotate(152deg) brightness(92%) contrast(101%);
+}
+
+.overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    padding-top: 3rem;
+}
+
+.back-overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.course-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(45deg, #ef5904, #ff8037, #ef5904);
+    background-size: 300% 300%;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: fit-content;
+    margin: 0 auto 1rem;
+    transition: all 0.3s ease;
+    animation: gradientAnimation 3s ease infinite;
+}
+
+.course-button:hover {
+    background-size: 400% 400%;
+    animation: gradientAnimation 2s ease infinite;
+}
+
+.back-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #ef5904, #ff8037, #ef5904);
+    background-size: 300% 300%;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    animation: gradientAnimation 3s ease infinite;
+    margin-top: 1rem;
+}
+
+.course-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 1rem 0;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 0.8s ease forwards 0.2s;
+}
+
+.course-title span {
+    background: linear-gradient(45deg, #ef5904, #ff8037, #ef5904);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    text-decoration: underline;
+    animation: gradientAnimation 3s ease infinite;
+}
+
+.video-carousel {
+    position: relative;
+    overflow: visible;
+    width: 100%;
+    padding: 0.5rem 0;
+    height: 240px;
+    margin-bottom: 40px;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%;
+    cursor: grab;
+    touch-action: pan-x; /* Allow horizontal swiping only for carousel */
+}
+
+.carousel-container:active {
+    cursor: grabbing;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 140px;
+    height: 220px;
+    margin-right: 0.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ef5904;
+}
+
+.carousel-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+.marquee-container {
+    padding: 1.5rem 0;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    background: linear-gradient(to right, #ef5904, #ff8037);
+    border-top: 1px solid #ef5904;
+    border-bottom: 1px solid #ef5904;
+    display: flex;           /* Adicionado para centralizar verticalmente */
+    align-items: center;     /* Adicionado para centralizar verticalmente */
+    height: 60px;            /* Altura fixa para a faixa */
+}
+
+.marquee-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 30s linear infinite;
+}
+
+.marquee-content span {
+    display: inline-block;
+    padding-right: 50px;
+    color: #fff;
+    font-weight: bold;
+}
+
+@keyframes marquee {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.content-section {
+    padding: 1rem;
+    flex: 1;
+}
+
+.content-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 0.8s ease forwards 0.2s;
+    color: #333;
+}
+
+.content-title span {
+    background: linear-gradient(45deg, #ef5904, #ff8037, #ef5904);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: underline;
+    animation: gradientAnimation 3s ease infinite;
+}
+
+/* Modificado: Cards em coluna única em todas as resoluções com largura expandida */
+.content-cards {
+    display: grid;
+    grid-template-columns: 1fr; /* Alterado para uma única coluna */
+    gap: 1rem;
+    padding: 0 1rem;
+    width: 100%; /* Ocupar toda a largura disponível */
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    border: 1px solid #ef5904;
+    cursor: pointer;
+}
+
+.card-1, .card-2, .card-3, .card-4 {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.card-1 { background-image: url('https://i.imgur.com/DgMDovH.jpg'); }
+.card-2 { background-image: url('https://i.imgur.com/Qljrhk2.jpg'); }
+.card-3 { background-image: url('https://i.imgur.com/b0Kru0v.jpg'); }
+.card-4 { background-image: url('https://i.imgur.com/FhHPQo1.jpg'); }
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    z-index: 1;
+}
+
+.footer {
+    background-color: #ef5904;
+    padding: 2rem 1rem;
+    margin-top: 2rem;
+    text-align: center;
+    border-top: 1px solid #ef5904;
+    width: 100%;
+}
+
+.footer-text {
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.8;
+}
+
+/* Importante: Adiciona um espaço para o card */
+.flip-card-spacer {
+    visibility: hidden;
+}
+
+/* Estilos para o novo card de depoimento */
+.testimonial-card {
+    background-color: #f5e6d3;
+    border-radius: 25px;
+    padding: 1.2rem 1.2rem;
+    width: 95%;
+    max-width: 450px;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid #ef5904;
+    height: auto;
+    min-height: 0;
+}
+
+/* CORREÇÃO COMPLETA PARA O CONTÊINER DA FOTO */
+.profile-photo-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #ef5904;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    background: transparent !important; /* Forçando transparência */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+/* CORREÇÃO COMPLETA PARA A IMAGEM */
+.profile-photo {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    border-radius: 50% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 10 !important;
+    filter: none !important; /* Removendo qualquer filtro */
+}
+
+.stars-container {
+    margin: 2.5rem 0 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.star {
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, #ef5904, #ff8037, #ef5904);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 3s ease infinite, starTwinkle 1.5s infinite;
+}
+
+.star:nth-child(1) { animation-delay: 0s, 0s; }
+.star:nth-child(2) { animation-delay: 0s, 0.3s; }
+.star:nth-child(3) { animation-delay: 0s, 0.6s; }
+.star:nth-child(4) { animation-delay: 0s, 0.9s; }
+.star:nth-child(5) { animation-delay: 0s, 1.2s; }
+
+@keyframes starTwinkle {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.testimonial-title {
+    color: #27120d;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: 'Manrope', sans-serif;
+}
+
+.testimonial-text {
+    color: #27120d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .rotating-logo {
+        width: 40.32px;
+        height: 40.32px;
+        right: 30%;
+        top: 35%;
+    }
+    .logo-text span {
+        font-size: 4.62px;
+    }
+    .white-card-section {
+        margin-top: -18%;
+    }
+    .content-title {
+        font-size: 1.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .course-title {
+        font-size: 1.5rem;
+    }
+    .carousel-item {
+        width: 130px;
+        height: 210px;
+    }
+    .video-carousel {
+        height: 230px;
+    }
+    .testimonial-card {
+        width: 95%;
+        max-width: 420px;
+        padding: 1.2rem 1rem;
+        min-height: 280px;
+    }
+    .profile-photo-container {
+        width: 80px;
+        height: 80px;
+        top: -40px;
+    }
+    .testimonial-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+    .testimonial-text {
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+    }
+    .star {
+        font-size: 1.2rem;
+    }
+    .stars-container {
+        margin: 2rem 0 0.8rem;
+    }
+    .back-button {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .rotating-logo {
+        width: 40.32px;
+        height: 40.32px;
+        right: 20%;
+        top: 30%;
+    }
+    .card {
+        height: 150px;
+    }
+    .card-content {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    .white-card-section {
+        margin-top: -15%;
+    }
+    .content-title {
+        font-size: 1.2rem;
+    }
+    .course-title {
+        font-size: 1.2rem;
+    }
+    .carousel-item {
+        width: 120px;
+        height: 200px;
+    }
+    .video-carousel {
+        height: 220px;
+    }
+    .testimonial-card {
+        width: 98%;
+        max-width: 380px;
+        padding: 1rem 0.8rem;
+        min-height: 260px;
+        height: auto;
+    }
+    .profile-photo-container {
+        width: 70px;
+        height: 70px;
+        top: -35px;
+    }
+    .testimonial-title {
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+    }
+    .testimonial-text {
+        font-size: 0.8rem;
+        margin-bottom: 0.6rem;
+    }
+    .star {
+        font-size: 1.1rem;
+    }
+    .stars-container {
+        margin: 1.8rem 0 0.6rem;
+    }
+    .back-button {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+    }
+    .footer {
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.carousel-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-indicator.active {
+    background-color: #ff8037;
+}
+
+/* Correção para evitar espaço em branco após o rodapé */
+.separator {
+    display: none;
+}
+</style>
+</head>
+<body>
+<div class="site-wrapper">
+<div class="hero">
+  <img src="https://i.imgur.com/5BQjyVZ.jpg" alt="Hero Image">
+  <!-- Efeito de luz pulsante melhorado -->
+  <div class="light-effect"></div>
+  <div class="rotating-logo">
+      <div class="logo-circle">
+          <div class="logo-text" id="rotating-text"></div>
+      </div>
+  </div>
+</div>
+
+<div class="white-card-section">
+  <div class="flip-card" id="flipCard">
+      <div class="card-front">
+          <div class="white-card">
+              <img src="https://i.imgur.com/DtZONCc.png" alt="White Card">
+              <div class="overlay-content">
+                  <button class="course-button" id="flipButton">
+                      <i class="fas fa-play"></i>
+                      VEJA TUDO SOBRE MIM
+                  </button>
+                  <h2 class="course-title">Acompanhe nossos <span>trabalhos</span>.</h2>
+                  <div class="video-carousel">
+                      <div class="carousel-container">
+                          <!-- 5 GIFs -->
+                          <div class="carousel-item">
+                              <video autoplay loop muted playsinline>
+                                  <source src="https://i.imgur.com/4hGRtdI.mp4" type="video/mp4">
+                              </video>
+                          </div>
+                          <div class="carousel-item">
+                              <video autoplay loop muted playsinline>
+                                  <source src="https://i.imgur.com/8F1VANM.mp4" type="video/mp4">
+                              </video>
+                          </div>
+                          <div class="carousel-item">
+                              <video autoplay loop muted playsinline>
+                                  <source src="https://i.imgur.com/0KVoorc.mp4" type="video/mp4">
+                              </video>
+                          </div>
+                          <div class="carousel-item">
+                              <video autoplay loop muted playsinline>
+                                  <source src="https://i.imgur.com/racJwM6.mp4" type="video/mp4">
+                              </video>
+                          </div>
+                          <div class="carousel-item">
+                              <video autoplay loop muted playsinline>
+                                  <source src="https://i.imgur.com/jmz3GFO.mp4" type="video/mp4">
+                              </video>
+                          </div>
+                          <!-- 5 Fotos -->
+                          <div class="carousel-item">
+                              <img src="https://i.imgur.com/QYnJDK8.jpg" alt="Foto 6">
+                          </div>
+                          <div class="carousel-item">
+                              <img src="https://i.imgur.com/GWDBOTF.jpg" alt="Foto 7">
+                          </div>
+                          <div class="carousel-item">
+                              <img src="https://i.imgur.com/v8QNws9.jpg" alt="Foto 8">
+                          </div>
+                          <div class="carousel-item">
+                              <img src="https://i.imgur.com/EZrTkoB.jpg" alt="Foto 9">
+                          </div>
+                          <div class="carousel-item">
+                              <img src="https://i.imgur.com/LzRPqxH.jpg" alt="Foto 10">
+                          </div>
+                      </div>
+                      <div class="carousel-indicators">
+                          <div class="carousel-indicator active"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                          <div class="carousel-indicator"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="card-back">
+          <div class="white-card">
+              <img src="https://i.imgur.com/DtZONCc.png" alt="White Card">
+              <div class="back-overlay-content">
+                  <!-- Novo card de depoimento centralizado com texto atualizado -->
+                  <div class="testimonial-card">
+                      <div class="profile-photo-container">
+                          <img src="https://i.imgur.com/Q3G2mpD.jpg" alt="Foto do Cliente" class="profile-photo">
+                          <!-- Removido efeito de luz na foto de perfil -->
+                      </div>
+                      <div class="stars-container">
+                          <span class="star">★</span>
+                          <span class="star">★</span>
+                          <span class="star">★</span>
+                          <span class="star">★</span>
+                          <span class="star">★</span>
+                      </div>
+                      <h3 class="testimonial-title">Criador da Passeio Pet</h3>
+                      <p class="testimonial-text">
+                          Meu nome é Thiago Ferreira, sou médico veterinário há 4 anos e fundador da Passeio Pet. Minha paixão pelos animais e meu compromisso com o bem-estar dos pets me levaram a criar um serviço dedicado à qualidade de vida deles.
+                          A Passeio Pet atua no mercado há 8 anos, oferecendo serviços de passeios, adestramento e hospedagem. Hoje, contamos com uma equipe de 6 profissionais comprometidos em proporcionar o melhor cuidado para os animais.
+                      </p>
+                      <!-- Botão dentro do card -->
+                      <button class="back-button" id="backButton">
+                          <i class="fas fa-arrow-left"></i>
+                          VOLTAR
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Espaçador para manter o layout correto -->
+  <div class="flip-card-spacer">
+      <img src="https://i.imgur.com/DtZONCc.png" style="visibility: hidden; display: block; width: 100%; height: auto;">
+  </div>
+</div>
+
+<div class="marquee-container">
+  <div class="marquee-content">
+      <span>PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL •</span>
+      <span>PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL • PASSEIO PET NATAL •</span>
+  </div>
+</div>
+
+<div class="content-section">
+  <h1 class="content-title">Solicite nossos <span>serviços</span> abaixo:</h1>
+  <div class="content-cards">
+      <!-- Card 1 - Instagram -->
+      <a href="https://www.instagram.com/passeiopetnatal?igsh=bm82ZGE0OXYzYmM0" target="_blank" class="card card-1"></a>
+      
+      <!-- Card 2 - WhatsApp com mensagem automática para passeio -->
+      <a href="https://wa.me/558496485302?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20passeio%20para%20meu%20pet.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es?" target="_blank" class="card card-2"></a>
+      
+      <!-- Card 3 - WhatsApp com mensagem automática para adestramento -->
+      <a href="https://wa.me/558496485302?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20servi%C3%A7o%20de%20adestramento%20para%20meu%20pet.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es?" target="_blank" class="card card-3"></a>
+      
+      <!-- Card 4 - WhatsApp com mensagem automática para hospedagem (link corrigido) -->
+      <a href="https://wa.me/558498446128?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20servi%C3%A7o%20de%20hospedagem%20para%20meu%20pet.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es?" target="_blank" class="card card-4"></a>
+  </div>
+</div>
+
+<footer class="footer">
+  <p class="footer-text">
+      Copyright © 2025 passeiopet<br>
+      Todos os direitos reservados | <a href="#" style="color: #fff; text-decoration: none;">Termos e Condições</a><br>
+      Dúvida ou suporte entre em contato pelo e-mail: link.sitebio@gmail.com
+  </p>
+</footer>
+</div>
+
+<script>
+// Garantir que a imagem seja carregada corretamente
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevenir comportamento de zoom e scroll lateral
+    document.addEventListener('touchmove', function(e) {
+        // Permitir scroll apenas para o carrossel
+        if (!e.target.closest('.carousel-container')) {
+            if (e.touches.length > 1 || (e.scale && e.scale !== 1)) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+    
+    // Forçar a remoção de qualquer background no contêiner da foto
+    const photoContainer = document.querySelector('.profile-photo-container');
+    photoContainer.style.background = 'transparent';
+    photoContainer.style.backgroundColor = 'transparent';
+    
+    // Garantir que a imagem seja exibida corretamente
+    const profilePhoto = document.querySelector('.profile-photo');
+    profilePhoto.style.width = '100%';
+    profilePhoto.style.height = '100%';
+    profilePhoto.style.objectFit = 'cover';
+    profilePhoto.style.filter = 'none';
+    
+    // Verificar se a imagem carregou corretamente
+    profilePhoto.onerror = function() {
+        console.error('Erro ao carregar a imagem de perfil');
+        // Tentar carregar a imagem novamente
+        this.src = 'https://i.imgur.com/Q3G2mpD.jpg';
+    };
+
+    // Inicializar todas as funcionalidades
+    initializeRotatingText();
+    initializeFlipCard();
+    initializeCarousel();
+    initializeScrollEffects();
+    adjustSpacerHeight();
+});
+
+// Melhorado: Função para lidar com o scroll usando Intersection Observer
+function initializeScrollEffects() {
+    // Remover qualquer classe 'visible' existente para garantir que a animação ocorra novamente
+    document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('visible');
+    });
+    
+    // Criar um novo Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Se o elemento estiver visível na tela
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            } else {
+                // Remover a classe quando não estiver visível para que a animação ocorra novamente
+                entry.target.classList.remove('visible');
+            }
+        });
+    }, {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.1 // 10% do elemento deve estar visível
+    });
+
+    // Observar todos os cards
+    document.querySelectorAll('.card').forEach(card => {
+        observer.observe(card);
+    });
+}
+
+// Adicionar evento de scroll para reiniciar as animações
+window.addEventListener('scroll', debounce(function() {
+    // Verificar se os cards estão visíveis e aplicar a animação
+    const cards = document.querySelectorAll('.card');
+    const windowHeight = window.innerHeight;
+    
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const isVisible = (rect.top <= windowHeight * 0.9 && rect.bottom >= windowHeight * 0.1);
+        
+        if (isVisible) {
+            card.classList.add('visible');
+        } else {
+            card.classList.remove('visible');
+        }
+    });
+}, 100));
+
+// Melhorado: Função para criar o texto rotativo
+function initializeRotatingText() {
+    const text = "PASSEIO PET NATAL • PASSEIO PET NATAL • ";
+    const container = document.getElementById('rotating-text');
+    const characters = text.split('');
+    const degree = 360 / characters.length;
+
+    // Criar um fragmento de documento para melhor performance
+    const fragment = document.createDocumentFragment();
+    
+    characters.forEach((char, i) => {
+        const span = document.createElement('span');
+        span.innerText = char;
+        span.style.transform = `rotate(${degree * i}deg) translateY(-42px)`;
+        fragment.appendChild(span);
+    });
+    
+    // Adicionar todos os spans de uma vez
+    container.appendChild(fragment);
+}
+
+// Melhorado: Função para inicializar o flip card
+function initializeFlipCard() {
+    const flipCard = document.getElementById('flipCard');
+    const flipButton = document.getElementById('flipButton');
+    const backButton = document.getElementById('backButton');
+    
+    flipButton.addEventListener('click', function() {
+        flipCard.classList.add('flipped');
+    });
+    
+    backButton.addEventListener('click', function() {
+        flipCard.classList.remove('flipped');
+    });
+}
+
+// Melhorado: Função para ajustar a altura do espaçador
+function adjustSpacerHeight() {
+    const cardHeight = document.querySelector('.white-card').offsetHeight;
+    document.querySelector('.flip-card-spacer img').style.height = cardHeight + 'px';
+    
+    // Adicionar listener para redimensionamento da janela
+    window.addEventListener('resize', debounce(function() {
+        const updatedCardHeight = document.querySelector('.white-card').offsetHeight;
+        document.querySelector('.flip-card-spacer img').style.height = updatedCardHeight + 'px';
+    }, 250));
+}
+
+// Função de debounce para melhorar performance em eventos frequentes
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Melhorado: Função para inicializar o carrossel
+function initializeCarousel() {
+    const carousel = document.querySelector('.carousel-container');
+    const items = document.querySelectorAll('.carousel-item');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    let currentIndex = 0;
+    let startX, currentX;
+    let intervalId;
+    let isDragging = false;
+
+    // Clone the first two items and append them to the end for seamless looping
+    const firstItemClone = items[0].cloneNode(true);
+    const secondItemClone = items[1].cloneNode(true);
+    carousel.appendChild(firstItemClone);
+    carousel.appendChild(secondItemClone);
+
+    function moveCarousel() {
+        currentIndex++;
+        updateCarousel();
+    }
+
+    function updateCarousel() {
+        const itemWidth = items[0].offsetWidth + parseFloat(getComputedStyle(items[0]).marginRight);
+        const offset = -currentIndex * itemWidth;
+        
+        if (currentIndex >= items.length) {
+            carousel.style.transition = 'none';
+            currentIndex = currentIndex % items.length;
+            carousel.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease';
+            }, 10);
+        } else {
+            carousel.style.transition = 'transform 0.5s ease';
+            carousel.style.transform = `translateX(${offset}px)`;
+        }
+
+        // Atualizar indicadores
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex % items.length) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+    }
+
+    function startCarousel() {
+        stopCarousel(); // Evitar múltiplos intervalos
+        intervalId = setInterval(moveCarousel, 3000);
+    }
+
+    function stopCarousel() {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+    }
+
+    function handleDragStart(e) {
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        startX -= carousel.offsetLeft;
+        currentX = startX;
+        stopCarousel();
+        
+        // Remover transição para resposta imediata
+        carousel.style.transition = 'none';
+    }
+
+    function handleDragMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        currentX -= carousel.offsetLeft;
+        
+        const diff = currentX - startX;
+        const itemWidth = items[0].offsetWidth + parseFloat(getComputedStyle(items[0]).marginRight);
+        carousel.style.transform = `translateX(${-currentIndex * itemWidth + diff}px)`;
+    }
+
+    function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        // Restaurar transição
+        carousel.style.transition = 'transform 0.5s ease';
+        
+        const diff = currentX - startX;
+        const threshold = 50; // Pixels necessários para mudar de slide
+        
+        if (Math.abs(diff) > threshold) {
+            currentIndex += diff > 0 ? -1 : 1;
+            // Garantir que o índice não seja negativo
+            if (currentIndex < 0) currentIndex = 0;
+        }
+        
+        updateCarousel();
+        startCarousel();
+    }
+
+    // Event listeners para mouse
+    carousel.addEventListener('mousedown', handleDragStart);
+    carousel.addEventListener('mousemove', handleDragMove);
+    carousel.addEventListener('mouseup', handleDragEnd);
+    carousel.addEventListener('mouseleave', handleDragEnd);
+
+    // Event listeners para touch
+    carousel.addEventListener('touchstart', handleDragStart, { passive: false });
+    carousel.addEventListener('touchmove', handleDragMove, { passive: false });
+    carousel.addEventListener('touchend', handleDragEnd);
+
+    // Iniciar o carrossel
+    startCarousel();
+
+    // Adicionar event listeners para os indicadores
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+            stopCarousel();
+            startCarousel();
+        });
+    });
+}
+
+// Iniciar o carrossel quando a página carregar
+window.addEventListener('load', function() {
+    // Carregar vídeos de forma assíncrona para melhorar performance
+    document.querySelectorAll('video').forEach(video => {
+        // Definir atributo loading="lazy" para vídeos
+        video.setAttribute('loading', 'lazy');
+        
+        // Verificar se o vídeo está visível antes de reproduzir
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(e => console.log('Erro ao reproduzir vídeo:', e));
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(video);
+    });
+    
+    // Garantir que os cards tenham a animação aplicada
+    initializeScrollEffects();
+});
+
+// Adicionar listener para redimensionamento da janela
+window.addEventListener('resize', debounce(function() {
+    adjustSpacerHeight();
+}, 250));
+</script>
+</body>
+</html>
